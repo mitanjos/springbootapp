@@ -3,6 +3,7 @@ package com.practice.awsapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.practice.awsapp.repo.NAVRepo;
 
 @RestController
 @RequestMapping("/api/nav")
+@CrossOrigin
 public class NAVController {
 	
 	@Autowired
