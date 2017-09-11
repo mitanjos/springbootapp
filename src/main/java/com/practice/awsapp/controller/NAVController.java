@@ -46,7 +46,7 @@ public class NAVController {
 		return repo.findByAmfiId(amfiId);
 	}
 	
-	@RequestMapping("/name/${name}")
+	@RequestMapping("/name/{name}")
 	public List<NAVBean> findByName(@PathVariable("name")String name) {
 		return repo.findByNameContaining(name);
 	}
