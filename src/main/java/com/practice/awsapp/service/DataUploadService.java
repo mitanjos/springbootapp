@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,12 +21,14 @@ import com.practice.awsapp.repo.NAVRepo;
 
 @Component
 public class DataUploadService {
-
-	@Autowired
-	NAVRepo repo;
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(DataUploadService.class);
+	
 	@Value("${navdata.file.location}")
 	private String datafilelocation;
+	
+	@Autowired
+	NAVRepo repo;
 
 	@Scheduled(cron = "0 0 10 * * ?")
 	public void loadData() {
@@ -36,8 +40,11 @@ public class DataUploadService {
 		if (dataDir.isDirectory()) {
 			File[] fileList = dataDir.listFiles();
 			for (File file : fileList) {
+				logger.info("Processing file {}",file);
 				processFile(file);
 			}
+		}else {
+			logger.error("Location not configured correctly {}",datafilelocation);
 		}
 	}
 
