@@ -46,6 +46,11 @@ public class NAVController {
 		return repo.findByAmfiId(amfiId);
 	}
 	
+	@RequestMapping("/name/${name}")
+	public List<NAVBean> findByName(@PathVariable("name")String name) {
+		return repo.findByNameContaining(name);
+	}
+	
 	@RequestMapping(path="/", method=RequestMethod.POST)
 	public NAVBean createEntry(@RequestBody NAVBean newNav) {
 		repo.save(newNav);

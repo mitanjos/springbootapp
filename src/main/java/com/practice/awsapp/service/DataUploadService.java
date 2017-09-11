@@ -81,7 +81,6 @@ public class DataUploadService {
 
 	private static NAVBean buildRecordFromString(String str) {
 		String[] values = str.split(";");
-		System.out.println(values.length);
 		if (values.length == 8) {
 			NAVBean bean = new NAVBean();
 			bean.setAmfiId(values[0]);
