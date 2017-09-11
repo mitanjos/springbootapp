@@ -30,7 +30,7 @@ public class DataUploadService {
 	public void loadData() {
 		System.out.println("Loading data @ " + new Date());
 		if(datafilelocation==null || "".equals(datafilelocation.trim())) {
-			datafilelocation = "/home/ec2-user/navapp";
+			datafilelocation = "/home/ec2-user/navapp/data/";
 		}
 		File dataDir = new File(datafilelocation);
 		if (dataDir.isDirectory()) {
