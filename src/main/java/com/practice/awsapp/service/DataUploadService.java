@@ -30,7 +30,7 @@ public class DataUploadService {
 	@Autowired
 	NAVRepo repo;
 
-	@Scheduled(cron = "0 0 10 * * ?")
+	@Scheduled(cron = "*/5 * * * * ?")
 	public void loadData() {
 		System.out.println("Loading data @ " + new Date());
 		if(datafilelocation==null || "".equals(datafilelocation.trim())) {
