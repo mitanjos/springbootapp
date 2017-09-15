@@ -38,9 +38,12 @@ public class DataUploadService {
 		}else {
 			logger.info("No location found for processing");
 		}
+		logger.info("Location:{}",datafilelocation);
 		File dataDir = new File(datafilelocation);
 		if (dataDir.isDirectory()) {
+			logger.info("Starting file processing from directory");
 			File[] fileList = dataDir.listFiles();
+			logger.info("No of files:{}",fileList.length);
 			for (File file : fileList) {
 				logger.info("Processing file {}",file);
 				processFile(file);
