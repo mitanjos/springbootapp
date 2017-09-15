@@ -51,6 +51,12 @@ public class NAVController {
 		return repo.findByNameContaining(name);
 	}
 	
+	@RequestMapping("/upload")
+	public String dataUpload() {
+		svc.loadData();
+		return "SUCCESS";
+	}
+	
 	@RequestMapping(path="/", method=RequestMethod.POST)
 	public NAVBean createEntry(@RequestBody NAVBean newNav) {
 		repo.save(newNav);
