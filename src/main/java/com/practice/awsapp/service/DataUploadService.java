@@ -30,11 +30,13 @@ public class DataUploadService {
 	@Autowired
 	NAVRepo repo;
 
-	@Scheduled(cron = "0 0/10 * * * MON-FRI")
+	@Scheduled(cron = "0 0/30 * * * MON-FRI")
 	public void loadData() {
 		System.out.println("Loading data @ " + new Date());
 		if(datafilelocation==null || "".equals(datafilelocation.trim())) {
 			datafilelocation = "/home/ec2-user/navapp/data/";
+		}else {
+			logger.info("No location found for processing");
 		}
 		File dataDir = new File(datafilelocation);
 		if (dataDir.isDirectory()) {
