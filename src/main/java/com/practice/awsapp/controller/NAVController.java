@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practice.awsapp.bean.NAVBean;
+import com.practice.awsapp.service.CleanupService;
 import com.practice.awsapp.service.DataUploadService;
 import com.practice.awsapp.service.FundBasicDetailsService;
 import com.practice.awsapp.service.NAVService;
@@ -34,6 +35,9 @@ public class NAVController {
 	
 	@Autowired
 	FundBasicDetailsService fundSvc;
+	
+	@Autowired
+	CleanupService cleanupSvc;
 	
 	@RequestMapping(path="/",method=RequestMethod.GET)
 	public List<NAVBean> findAllPrices() {
@@ -69,10 +73,9 @@ public class NAVController {
 		return newNav;
 	}
 	
-	@RequestMapping(path="/amfiList", method=RequestMethod.GET)
-	public List<String> listAmfiId() {
-		List amfiList = fundSvc.getAllAmfiIdList();
-		logger.info("Counte of distinct AMFI Ids {}",amfiList.size());
-		return amfiList;
+	@RequestMapping(path="/cleanup", method=RequestMethod.GET)
+	public String cleaup() {
+		cleanupSvc.cleanup();
+		return "SUCCESS";
 	}
 }

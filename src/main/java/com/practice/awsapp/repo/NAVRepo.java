@@ -9,4 +9,5 @@ import com.practice.awsapp.bean.NAVBean;
 public interface NAVRepo extends MongoRepository<NAVBean, String>{
 	public List<NAVBean> findByAmfiId(String amfiId);
 	public List<NAVBean> findByNameContaining(String name);
+	public List<NAVBean> findByPriceDate(String priceDate);
 }
