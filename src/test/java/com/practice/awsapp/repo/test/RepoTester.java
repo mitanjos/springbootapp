@@ -31,5 +31,4 @@ public class RepoTester {
 	public void testIfEntityExistsByAmfiId() {
 		Assert.assertNotNull(repo.findByAmfiId(amfiId));
 	}
-	
 }

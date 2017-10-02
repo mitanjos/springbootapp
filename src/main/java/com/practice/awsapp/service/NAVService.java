@@ -1,7 +1,10 @@
 package com.practice.awsapp.service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,34 +27,42 @@ public class NAVService {
 	
 	public List<NAVBean> findAllPrices() {
 		List<NAVBean> navList = repo.findAll();
-		if(navList!=null && !navList.isEmpty()) {
-			for(NAVBean bean:navList) {
-				formatForDate(bean);
-			}
-			return navList;
-		}else {
-			return null;
-		}
+		return processResult(navList);
 	}
 	
-	public NAVBean findByAMFIId(@PathVariable("amfiId")String amfiId) {
-		return repo.findByAmfiId(amfiId);
+	public List<NAVBean> findByAMFIId(@PathVariable("amfiId")String amfiId) {
+		List<NAVBean> navList =   repo.findByAmfiId(amfiId);
+		return processResult(navList);
 	}
 	
 	public List<NAVBean> findByName(@PathVariable("name")String name) {
 		List<NAVBean> navList =  repo.findByNameContaining(name);
-		if(navList!=null && !navList.isEmpty()) {
-			for(NAVBean bean:navList) {
-				formatForDate(bean);
-			}
-		}
-		return navList;
+		return processResult(navList);
 	}
 	
 	public NAVBean createEntry(@RequestBody NAVBean newNav) {
 		formatForDate(newNav);
 		repo.save(newNav);
 		return newNav;
+	}
+	private List<NAVBean> processResult(List<NAVBean> navList){
+		List<NAVBean> navRetList = new ArrayList<>();
+		Map<String, List<NAVBean>> navListByAmfi = new TreeMap<>();
+		if(navList==null || navList.isEmpty())
+			return navList;
+		for(NAVBean bean:navList) {
+			String keyStr = bean.getAmfiId()+":"+bean.getPriceDate();
+			if(navListByAmfi.containsKey(keyStr)) {
+				logger.info("Will delete: {}",bean);
+			}else {
+				List<NAVBean> navBeanList = new ArrayList<>();
+				navBeanList.add(bean);
+				navListByAmfi.put(keyStr, navBeanList);
+				formatForDate(bean);
+				navRetList.add(bean);
+			}
+		}
+		return navRetList;
 	}
 	private void formatForDate(NAVBean bean) {
 		if(bean!=null && bean.getDate()==null) {
@@ -62,5 +73,4 @@ public class NAVService {
 			}
 		}
 	}
-	
 }

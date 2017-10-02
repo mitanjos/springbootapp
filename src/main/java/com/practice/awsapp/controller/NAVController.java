@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.practice.awsapp.bean.NAVBean;
 import com.practice.awsapp.service.DataUploadService;
+import com.practice.awsapp.service.FundBasicDetailsService;
 import com.practice.awsapp.service.NAVService;
 
 @RestController
@@ -31,6 +32,9 @@ public class NAVController {
 	@Autowired
 	NAVService navSvc;
 	
+	@Autowired
+	FundBasicDetailsService fundSvc;
+	
 	@RequestMapping(path="/",method=RequestMethod.GET)
 	public List<NAVBean> findAllPrices() {
 		List<NAVBean> navList = navSvc.findAllPrices();
@@ -44,7 +48,7 @@ public class NAVController {
 	}
 	
 	@RequestMapping(path="/{amfiId}",method=RequestMethod.GET)
-	public NAVBean findByAMFIId(@PathVariable("amfiId")String amfiId) {
+	public List<NAVBean> findByAMFIId(@PathVariable("amfiId")String amfiId) {
 		return navSvc.findByAMFIId(amfiId);
 	}
 	
@@ -63,5 +67,12 @@ public class NAVController {
 	public NAVBean createEntry(@RequestBody NAVBean newNav) {
 		navSvc.createEntry(newNav);
 		return newNav;
+	}
+	
+	@RequestMapping(path="/amfiList", method=RequestMethod.GET)
+	public List<String> listAmfiId() {
+		List amfiList = fundSvc.getAllAmfiIdList();
+		logger.info("Counte of distinct AMFI Ids {}",amfiList.size());
+		return amfiList;
 	}
 }

@@ -82,6 +82,13 @@ public class NAVBean implements Comparable<NAVBean>{
 	}
 	@Override
 	public int compareTo(NAVBean o) {
+		if(o!=null && o.getAmfiId()!=null) {
+			if(o.getAmfiId().equals(amfiId)) {
+				if(o.getDate()!=null)
+					return o.getDate().compareTo(date);
+			}
+			return o.getAmfiId().compareTo(amfiId);
+		}
 		return 0;
 	}
 }
