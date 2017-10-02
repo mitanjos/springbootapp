@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practice.awsapp.bean.NAVBean;
-import com.practice.awsapp.repo.NAVRepo;
 import com.practice.awsapp.service.DataUploadService;
+import com.practice.awsapp.service.NAVService;
 
 @RestController
 @RequestMapping("/api/nav")
@@ -23,15 +23,17 @@ public class NAVController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(NAVController.class);
 	
-	@Autowired
-	NAVRepo repo;
+	
 	
 	@Autowired
 	DataUploadService svc;
 	
+	@Autowired
+	NAVService navSvc;
+	
 	@RequestMapping(path="/",method=RequestMethod.GET)
 	public List<NAVBean> findAllPrices() {
-		List<NAVBean> navList = repo.findAll();
+		List<NAVBean> navList = navSvc.findAllPrices();
 		if(navList!=null && !navList.isEmpty()) {
 			return navList;
 		}else {
@@ -43,12 +45,12 @@ public class NAVController {
 	
 	@RequestMapping(path="/{amfiId}",method=RequestMethod.GET)
 	public NAVBean findByAMFIId(@PathVariable("amfiId")String amfiId) {
-		return repo.findByAmfiId(amfiId);
+		return navSvc.findByAMFIId(amfiId);
 	}
 	
 	@RequestMapping("/name/{name}")
 	public List<NAVBean> findByName(@PathVariable("name")String name) {
-		return repo.findByNameContaining(name);
+		return navSvc.findByName(name);
 	}
 	
 	@RequestMapping("/upload")
@@ -59,7 +61,7 @@ public class NAVController {
 	
 	@RequestMapping(path="/", method=RequestMethod.POST)
 	public NAVBean createEntry(@RequestBody NAVBean newNav) {
-		repo.save(newNav);
+		navSvc.createEntry(newNav);
 		return newNav;
 	}
 }

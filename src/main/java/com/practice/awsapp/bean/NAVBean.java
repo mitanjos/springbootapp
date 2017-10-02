@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="mfnavlist")
-public class NAVBean {
+public class NAVBean implements Comparable<NAVBean>{
 	@Id
 	private String id;
 	
@@ -79,5 +79,9 @@ public class NAVBean {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	@Override
+	public int compareTo(NAVBean o) {
+		return 0;
 	}
 }
